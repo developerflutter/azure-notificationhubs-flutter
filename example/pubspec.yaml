@@ -1,7 +1,7 @@
 name: azure_notificationhubs_flutter_example
 description: Demonstrates how to use the azure_notificationhubs_flutter plugin.
 publish_to: 'none'
-
+version: 0.0.1+1
 environment:
   sdk: ">=2.1.0 <3.0.0"
 

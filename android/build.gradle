@@ -28,7 +28,24 @@ android {
         minSdkVersion 16
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
     lintOptions {
         disable 'InvalidPackage'
+    }
+
+    dependencies {
+        implementation 'com.google.firebase:firebase-core:16.0.8'
+        implementation 'com.google.firebase:firebase-messaging:17.3.4'
+        implementation 'com.microsoft.azure:notification-hubs-android-sdk:0.6@aar'
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+}
+
+repositories {
+    maven {
+        url "https://dl.bintray.com/microsoftazuremobile/SDK"
     }
 }

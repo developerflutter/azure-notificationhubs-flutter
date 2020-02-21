@@ -1,14 +1,19 @@
-# azure_notificationhubs_flutter
+# Microsoft Azure Notification Hubs wrapper for Flutter
 
-A new flutter plugin project.
+This is a **work in progress**. View todos in our [issues page](https://github.com/rswiftoffice/azure-notificationhubs-flutter/issues/new) for more information.
+
+Microsoft Azure Notification Hubs provide a multiplatform, scaled-out push infrastructure that enables you to send mobile push notifications from any backend (in the cloud or on-premises) to any mobile platform. To learn more, visit the [Developer Center](https://azure.microsoft.com/en-us/documentation/services/notification-hubs).
 
 ## Getting Started
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+If you are new to Notification Hubs, you can get started by following the tutorials to push notifications to your [apps](https://docs.microsoft.com/en-us/azure/notification-hubs/).
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+## Download Source Code
+
+To get the source code of our wrapper via **git** just type:
+
+    git clone https://github.com/rswiftoffice/azure-notificationhubs-flutter.git
+
+## Contributing
+
+If you're unsure about anything, just ask -- or submit the issue or pull request anyway. The worst that can happen is you'll be politely asked to change something. We love all friendly contributions.

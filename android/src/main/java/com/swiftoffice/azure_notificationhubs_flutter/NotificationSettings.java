@@ -5,8 +5,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.content.Context;
 
-import io.flutter.Log;
-
 public class NotificationSettings {
     private String HubName;
     private String HubConnectionString;
@@ -18,7 +16,6 @@ public class NotificationSettings {
             HubName = bundle.getString("NotificationHubName");
             HubConnectionString = bundle.getString("NotificationHubConnectionString");
         } catch(PackageManager.NameNotFoundException e) {
-            Log.d("ANH_FLUTTER", "Name not found exception e");
         }
     }
 

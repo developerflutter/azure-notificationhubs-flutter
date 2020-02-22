@@ -65,7 +65,7 @@ final AzureNotificationhubsFlutter _anh = AzureNotificationhubsFlutter();
 Requesting permissions on iOS is managed by the plugin and the request will bring up a permissions dialog for the user to confirm on iOS on app launch.
 
 Afterwards, you can listen to the notifications and write your own logic to handle extra data payloads.
- 
+
 ```
   _anh.configure(
     onLaunch: (Map<String, dynamic> notification) async {
@@ -82,6 +82,12 @@ Afterwards, you can listen to the notifications and write your own logic to hand
     },
   );
 ```
+
+## Subscribing to tags
+
+Every device is automatically subscribed to `device:deviceID`. For Android, deviceId is a SHA1 hash of FirebaseCloudMessaging token because it exceeds the length limits of a tag.
+
+Manual subscribing to tags is not supported as it is not my priority right now. Feel free to create a PR.
 
 ## Why am I receiving silent notifications on android?
 

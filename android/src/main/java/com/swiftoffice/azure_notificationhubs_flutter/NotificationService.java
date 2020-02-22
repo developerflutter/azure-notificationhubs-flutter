@@ -4,12 +4,16 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import androidx.annotation.NonNull;
+import android.R;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import androidx.core.app.NotificationCompat;
 
@@ -54,6 +58,9 @@ public class NotificationService extends FirebaseMessagingService {
             PendingIntent contentIntent = PendingIntent.getActivity(ctx, 0,
                 intent, PendingIntent.FLAG_ONE_SHOT);
             Map notificationData = (Map) content.get("data");
+            Resources resources = ctx.getPackageManager().getResourcesForApplication(packageName);
+            int resId = resources.getIdentifier("ic_launcher", "mipmap", packageName);
+            Drawable icon = resources.getDrawable(resId);
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(
                     ctx,
                     NOTIFICATION_CHANNEL_ID)
@@ -61,9 +68,8 @@ public class NotificationService extends FirebaseMessagingService {
                 .setContentText(notificationData.get("body").toString())
                 .setDefaults(DEFAULT_SOUND | DEFAULT_VIBRATE | DEFAULT_ALL)
                 .setPriority(PRIORITY_HIGH)
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setLargeIcon(BitmapFactory.decodeResource(ctx.getResources(),
-                            R.drawable.ic_launcher))
+                .setSmallIcon(R.drawable.ic_menu_manage)
+                .setLargeIcon(BitmapFactory.decodeResource(resources, resId))
                 .setContentIntent(contentIntent)
                 .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
                 .setAutoCancel(true);

@@ -83,6 +83,38 @@ Afterwards, you can listen to the notifications and write your own logic to hand
   );
 ```
 
+## Payloads
+
+iOS and Android have different payloads. We will transition to templates in the future to have one payload to send to all types of devices.
+
+### iOS Payload
+
+```
+iosPayload = {
+    aps: {
+      alert: {
+        title: "Hello world",
+        body: "by kevin chu"
+      },
+      badge: 1
+    },
+    <!-- extra data payload -->
+    ...
+  }
+```
+
+### Android Payload
+
+```
+const androidPayload = {
+  title: "Hello world"
+  body: "by kevin chu",
+  data: {
+    <!-- extra data payload -->
+  }
+}
+```
+
 ## Subscribing to tags
 
 Every device is automatically subscribed to `device:deviceID`. For Android, deviceId is a SHA1 hash of FirebaseCloudMessaging token because it exceeds the length limits of a tag.

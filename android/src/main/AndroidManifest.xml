@@ -6,7 +6,7 @@
       android:exported="true">
     </service>
     <service
-      android:name=".ANHFirebaseService"
+      android:name=".NotificationService"
       android:exported="true">
       <intent-filter>
           <action android:name="com.google.firebase.MESSAGING_EVENT" />

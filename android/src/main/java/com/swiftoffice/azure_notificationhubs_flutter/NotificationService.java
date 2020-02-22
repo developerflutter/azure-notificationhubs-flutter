@@ -17,20 +17,22 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.flutter.plugin.common.MethodChannel;
-
+import static androidx.core.app.NotificationCompat.DEFAULT_ALL;
 import static androidx.core.app.NotificationCompat.DEFAULT_SOUND;
 import static androidx.core.app.NotificationCompat.DEFAULT_VIBRATE;
 import static androidx.core.app.NotificationCompat.PRIORITY_HIGH;
 
-public class ANHFirebaseService extends FirebaseMessagingService {
+public class NotificationService extends FirebaseMessagingService {
     public static final String NOTIFICATION_CHANNEL_ID = "azure_notificationhubs_flutter";
     public static final String NOTIFICATION_CHANNEL_NAME = "Azure Notification Hubs Channel";
     public static final String NOTIFICATION_CHANNEL_DESCRIPTION = "Azure Notification Hubs Channel";
 
+    public static final String ACTION_REMOTE_MESSAGE =
+            "com.swiftoffice.azure_notificationhubs_flutter.NOTIFICATION";
+    public static final String ACTION_TOKEN = "com.swiftoffice.azure_notificationhubs_flutter.TOKEN";
+
     private NotificationManager mNotificationManager;
     private static Context ctx;
-    private MethodChannel channel;
 
     @Override
     public void onMessageReceived(RemoteMessage message) {
@@ -51,12 +53,13 @@ public class ANHFirebaseService extends FirebaseMessagingService {
             mNotificationManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
             PendingIntent contentIntent = PendingIntent.getActivity(ctx, 0,
                 intent, PendingIntent.FLAG_ONE_SHOT);
+            Map notificationData = (Map) content.get("data");
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(
                     ctx,
                     NOTIFICATION_CHANNEL_ID)
-                .setContentTitle(((Map) content.get("notification")).get("title").toString())
-                .setContentText(((Map) content.get("notification")).get("body").toString())
-                .setDefaults(DEFAULT_SOUND | DEFAULT_VIBRATE)
+                .setContentTitle(notificationData.get("title").toString())
+                .setContentText(notificationData.get("body").toString())
+                .setDefaults(DEFAULT_SOUND | DEFAULT_VIBRATE | DEFAULT_ALL)
                 .setPriority(PRIORITY_HIGH)
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setLargeIcon(BitmapFactory.decodeResource(ctx.getResources(),
@@ -79,6 +82,7 @@ public class ANHFirebaseService extends FirebaseMessagingService {
                 NOTIFICATION_CHANNEL_NAME,
                 NotificationManager.IMPORTANCE_HIGH);
             channel.setDescription(NOTIFICATION_CHANNEL_DESCRIPTION);
+            channel.enableVibration(true);
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
@@ -88,13 +92,6 @@ public class ANHFirebaseService extends FirebaseMessagingService {
     private Map<String, Object> parseRemoteMessage(RemoteMessage message) {
         Map<String, Object> content = new HashMap<>();
         content.put("data", message.getData());
-        RemoteMessage.Notification notification = message.getNotification();
-        Map<String, Object> notificationMap = new HashMap<>();
-        String title = notification != null ? notification.getTitle() : null;
-        notificationMap.put("title", title);
-        String body = notification != null ? notification.getBody() : null;
-        notificationMap.put("body", body);
-        content.put("notification", notificationMap);
         return content;
     }
 }

@@ -85,16 +85,16 @@ Afterwards, you can listen to the notifications and write your own logic to hand
 
 ## Payloads
 
-iOS and Android have different payloads. We will transition to templates in the future to have one payload to send to all types of devices.
+iOS and Android have different payloads. The entire payload will be sent to dart onResume, onLaunch, onMessage depending on the situation. 
 
 ### iOS Payload
 
 ```
-iosPayload = {
+{
     aps: {
       alert: {
         title: "Hello world",
-        body: "by kevin chu"
+        body: "by chu"
       },
       badge: 1
     },
@@ -106,13 +106,15 @@ iosPayload = {
 ### Android Payload
 
 ```
-const androidPayload = {
-  title: "Hello world"
-  body: "by kevin chu",
-  data: {
+{
+  "data": {
+    "title": "Hello world",
+    "body": "to you",
     <!-- extra data payload -->
+    ...
   }
 }
+
 ```
 
 ## Subscribing to tags

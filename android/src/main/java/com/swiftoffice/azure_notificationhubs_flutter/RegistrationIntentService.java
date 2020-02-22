@@ -25,8 +25,6 @@ public class RegistrationIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.d(TAG, intent.toString());
-        Log.d(TAG, "onhandleintent");
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String resultString = null;
         String regID = null;
@@ -52,14 +50,11 @@ public class RegistrationIntentService extends IntentService {
             };
             NotificationSettings nhSettings = new NotificationSettings(getApplicationContext());
             if (((regID = sharedPreferences.getString("registrationID", null)) == null)) {
-
                 NotificationHub hub = new NotificationHub(nhSettings.getHubName(),
                         nhSettings.getHubConnectionString(), this);
-                Log.d(TAG, "Attempting a new registration with NH using FCM token : " + FCM_token);
                 regID = hub.register(FCM_token, tags).getRegistrationId();
                 resultString = "New NH Registration Successfully - RegId : " + regID;
                 Log.d(TAG, resultString);
-
                 sharedPreferences.edit().putString("registrationID", regID).apply();
                 sharedPreferences.edit().putString("FCMtoken", FCM_token).apply();
             }
@@ -68,7 +63,6 @@ public class RegistrationIntentService extends IntentService {
             else if ((sharedPreferences.getString("FCMtoken", "")) != FCM_token) {
                 NotificationHub hub = new NotificationHub(nhSettings.getHubName(),
                         nhSettings.getHubConnectionString(), this);
-                Log.d(TAG, "NH Registration refreshing with token : " + FCM_token);
                 regID = hub.register(FCM_token, tags).getRegistrationId();
                 resultString = "New NH Registration Successfully - RegId : " + regID;
                 Log.d(TAG, resultString);

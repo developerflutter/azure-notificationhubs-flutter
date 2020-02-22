@@ -24,7 +24,7 @@ public class AzureNotificationhubsFlutterPlugin implements FlutterPlugin, Method
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
         if (call.method.equals("configure")) {
             registerWithNotificationHubs();
-            ANHFirebaseService.createChannelAndHandleNotifications(applicationContext);
+            NotificationService.createChannelAndHandleNotifications(applicationContext);
         } else {
             result.notImplemented();
         }

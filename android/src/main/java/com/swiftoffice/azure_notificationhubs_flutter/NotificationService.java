@@ -6,7 +6,6 @@ import com.google.firebase.messaging.RemoteMessage;
 import androidx.annotation.NonNull;
 import android.R;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -15,7 +14,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+
 import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -34,6 +35,9 @@ public class NotificationService extends FirebaseMessagingService {
     public static final String ACTION_REMOTE_MESSAGE =
             "com.swiftoffice.azure_notificationhubs_flutter.NOTIFICATION";
     public static final String ACTION_TOKEN = "com.swiftoffice.azure_notificationhubs_flutter.TOKEN";
+    public static final String EXTRA_REMOTE_MESSAGE =
+            "com.swiftoffice.azure_notificationhubs_flutter.NOTIFICATION_DATA";
+    public static final String EXTRA_TOKEN = "com.swiftoffice.azure_notificationhubs_flutter.TOKEN_DATA";
 
     private NotificationManager mNotificationManager;
     private static Context ctx;
@@ -41,6 +45,9 @@ public class NotificationService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage message) {
         Map<String, Object> content = parseRemoteMessage(message);
+        Intent intent = new Intent(ACTION_REMOTE_MESSAGE);
+        intent.putExtra(EXTRA_REMOTE_MESSAGE, message);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         sendNotification(content);
     }
 
@@ -57,15 +64,14 @@ public class NotificationService extends FirebaseMessagingService {
             mNotificationManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
             PendingIntent contentIntent = PendingIntent.getActivity(ctx, 0,
                 intent, PendingIntent.FLAG_ONE_SHOT);
-            Map notificationData = (Map) content.get("data");
             Resources resources = ctx.getPackageManager().getResourcesForApplication(packageName);
             int resId = resources.getIdentifier("ic_launcher", "mipmap", packageName);
             Drawable icon = resources.getDrawable(resId);
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(
                     ctx,
                     NOTIFICATION_CHANNEL_ID)
-                .setContentTitle(notificationData.get("title").toString())
-                .setContentText(notificationData.get("body").toString())
+                .setContentTitle(((Map) content.get("data")).get("title").toString())
+                .setContentText(((Map) content.get("data")).get("body").toString())
                 .setDefaults(DEFAULT_SOUND | DEFAULT_VIBRATE | DEFAULT_ALL)
                 .setPriority(PRIORITY_HIGH)
                 .setSmallIcon(R.drawable.ic_menu_manage)
@@ -95,7 +101,7 @@ public class NotificationService extends FirebaseMessagingService {
     }
 
     @NonNull
-    private Map<String, Object> parseRemoteMessage(RemoteMessage message) {
+    public static Map<String, Object> parseRemoteMessage(RemoteMessage message) {
         Map<String, Object> content = new HashMap<>();
         content.put("data", message.getData());
         return content;

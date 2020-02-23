@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/services.dart';
 
@@ -33,6 +34,10 @@ class AzureNotificationhubsFlutter {
       case "onToken":
         return _onToken(call.arguments.cast<String, dynamic>());
       case "onMessage":
+        if (Platform.isAndroid) {
+          Map<String, dynamic> args = Map<String, dynamic>.from(call.arguments);
+          return _onMessage(Map<String, dynamic>.from(args['data']));
+        }
         return _onMessage(call.arguments.cast<String, dynamic>());
       case "onLaunch":
         return _onLaunch(call.arguments.cast<String, dynamic>());

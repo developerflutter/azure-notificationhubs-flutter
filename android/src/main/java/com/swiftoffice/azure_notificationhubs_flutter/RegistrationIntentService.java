@@ -75,7 +75,7 @@ public class RegistrationIntentService extends IntentService {
                 resultString = "Previously Registered Successfully - RegId : " + regID;
             }
             Intent tIntent = new Intent(NotificationService.ACTION_TOKEN);
-            intent.putExtra(NotificationService.EXTRA_TOKEN, "device:" + sha1);
+            tIntent.putExtra(NotificationService.EXTRA_TOKEN, "device:" + sha1);
             LocalBroadcastManager.getInstance(this).sendBroadcast(tIntent);
         } catch (Exception e) {
             Log.e(TAG, resultString = "Failed to complete registration", e);
